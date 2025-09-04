@@ -38,3 +38,29 @@ class CollectionService(CrudService[Collection]):
             },
         )
         return True
+
+    def list_collections(
+        self,
+        filter: str = "",
+        sort: str = "",
+        query_params: dict[str, Any] = {},
+    ) -> list[Collection]:
+        """
+        获取集合列表，支持 filter 和 sort 参数。
+        """
+        params = query_params.copy()
+        if filter:
+            params["filter"] = filter
+        if sort:
+            params["sort"] = sort
+
+        resp = self.client.send(
+            self.base_crud_path(),
+            {
+                "method": "GET",
+                "params": params,
+            },
+        )
+        
+        # 假设 resp["collections"] 是集合列表
+        return [self.decode(item) for item in resp.get("items", [])]
