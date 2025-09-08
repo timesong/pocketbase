@@ -64,3 +64,17 @@ class CollectionService(CrudService[Collection]):
         
         # 假设 resp["collections"] 是集合列表
         return [self.decode(item) for item in resp.get("items", [])]
+
+    def create_collection(self, schema: dict, query_params: dict[str, Any] = {}) -> Collection:
+        """
+        创建一个新的集合。
+        """
+        resp = self.client.send(
+            self.base_crud_path(),
+            {
+                "method": "POST",
+                "params": query_params,
+                "body": schema,
+            },
+        )
+        return self.decode(resp)

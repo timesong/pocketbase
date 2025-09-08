@@ -41,6 +41,22 @@ class Collection(BaseModel):
             )
             field["primary_key"] = field.pop("primaryKey", False)
             self.fields.append(CollectionField(**field))
+            
+    def to_dict(self) -> dict[str, Any]:
+        data = super().to_dict()
+        data.update({
+            "name": self.name,
+            "type": self.type,
+            "system": self.system,
+            "options": self.options,
+            "listRule": self.list_rule,
+            "viewRule": self.view_rule,
+            "createRule": self.create_rule,
+            "updateRule": self.update_rule,
+            "deleteRule": self.delete_rule,
+            "fields": [field.__dict__ for field in self.fields],
+        })
+        return data
 
     def is_base(self):
         return self.type == "base"

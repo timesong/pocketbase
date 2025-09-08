@@ -38,6 +38,14 @@ class BaseModel(ABC):
         self.id = data.pop("id", "")
         self.created = to_datetime(data.pop("created", ""))
         self.updated = to_datetime(data.pop("updated", ""))
+        
+    def to_dict(self) -> dict[str, Any]:
+        """Converts the current model to a dictionary."""
+        return {
+            "id": self.id,
+            "created": self.created.isoformat() if isinstance(self.created, datetime.datetime) else self.created,
+            "updated": self.updated.isoformat() if isinstance(self.updated, datetime.datetime) else self.updated,
+        }
 
     @property
     def is_new(self) -> bool:

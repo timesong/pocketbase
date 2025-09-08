@@ -34,6 +34,7 @@ class CollectionField:
     onlyInt: bool = False
     values: list[str] = field(default_factory=list)
     cascadeDelete: bool = False
+    target: str | None = None
     collectionId: str | None = None
     minSelect: int | None = None
 
@@ -51,7 +52,7 @@ class CollectionField:
             "url": {"onlyDomains", "exceptDomains"},
             "email": {"onlyDomains"},
             "file": {"maxSize", "maxSelect", "mimeTypes", "protected", "thumbs"},
-            "relation": {"collectionId", "cascadeDelete", "maxSelect", "minSelect"},
+            "relation": {"collectionId", "target", "cascadeDelete", "maxSelect", "minSelect"},
             "autodate": {"onCreate", "onUpdate"},
             "password": {"cost", "min"}
         }
